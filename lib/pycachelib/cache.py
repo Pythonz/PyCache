@@ -50,5 +50,20 @@ class Cache:
 			return True
 		return False
 
+	def dele(self):
+		self.socket.send("DELE\n")
+		recv = self.socket.recv(10).rstrip()
+		if recv == "OK":
+			return True
+		return False
+
+	def quit(self):
+		self.socket.send("QUIT\n")
+		recv = self.socket.recv(10).rstrip()
+		if recv == "OK":
+			self.socket.close()
+			return True
+		return False
+
 	def close(self):
 		self.socket.close()

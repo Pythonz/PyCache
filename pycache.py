@@ -44,6 +44,10 @@ class PyCache:
 						client.send("OK\n")
 						client.close()
 						print("DISCONNECT: " + address[0] + ":" + str(address[1]))
+					elif line.upper() == "DELE":
+						del cache
+						cache = dict()
+						client.send("OK\n")
 					else:
 						client.send("ERROR\n")
 				if len(line.split()) == 2:
