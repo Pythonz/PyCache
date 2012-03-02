@@ -43,5 +43,12 @@ class Cache:
 			return True
 		return False
 
+	def line(self, integer):
+		self.socket.send("LINE " + integer + "\n")
+		recv = self.socket.recv(10).rstrip()
+		if recv == "OK":
+			return True
+		return False
+
 	def close(self):
 		self.socket.close()
