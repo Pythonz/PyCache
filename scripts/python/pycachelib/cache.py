@@ -6,7 +6,7 @@ class Cache:
 		return None
 
 	def connect(self, ip="127.0.0.1", port=1270):
-		self.socket.connect(("127.0.0.1", 1270))
+		self.socket.connect((ip, port))
 
 	def stor(self, string, data):
 		self.socket.send("STOR " + string + " " + data + "\n")
