@@ -1,0 +1,74 @@
+#!/bin/sh
+case $1 in
+	start)
+		if [ ! -f pycache.pid ]; then
+			if [ -f pycache.pyc ]; then
+				rm -f pycache.pyc
+			fi
+			python pycache.py >> /dev/null &
+			pid=$!
+			echo $pid > pycache.pid
+			echo "PyCache started into background (PID: $pid)"
+		else
+			pid=$(cat pycache.pid)
+			status="false"
+			for data in $(ps | grep $pid); do
+				status="true"
+			done
+			if [ $status = "false" ]; then
+				rm -f pycache.pid
+				sh pycache start
+			else
+				echo "PyCache is already running"
+			fi
+		fi
+		;;
+	stop)
+		if [ -f pycache.pid ]; then
+			pid=$(cat pycache.pid)
+			kill -9 $pid
+			rm -f pycache.pid
+			if [ -f pycache.pyc ]; then
+				rm -f pycache.pyc
+			fi
+			echo "PyCache is stopped (PID: $pid)"
+		else
+			echo "PyCache is not running"
+		fi
+		;;
+	restart)
+		if [ -f pycache.pid ]; then
+			sh pycache stop
+			sh pycache start
+		else
+			sh pycache start
+		fi
+		;;
+	debug)
+		while [ 1 ]; do
+			if [ -f pycache.pyc ]; then
+				rm -f pycache.pyc
+			fi
+			python pycache.py
+			if [ -f pycache.pyc ]; then
+				rm -f pycache.pyc
+			fi
+		done
+		;;
+	status)
+		if [ -f pycache.pid ]; then
+			pid=$(cat pycache.pid)
+			status="PyCache seems to be crashed"
+			for data in $(ps | grep $pid); do
+				status="PyCache is running"
+			done
+		else
+			status="PyCache is not running"
+		fi
+		echo $status
+		;;
+	*)
+		echo "start | stop | restart | debug | status"
+		;;
+esac
+	
