@@ -6,6 +6,8 @@ from thread import start_new_thread
 from sys import exit
 from time import sleep
 
+__version__ = open("version", "r").read()
+
 class PyCache:
 	def __init__(self):
 		try:
@@ -80,7 +82,7 @@ class PyCache:
 			return 1
 
 while True:
-	print("Started PyCache")
+	print("Started PyCache " + __version__)
 	PyCache()
-	print("Stopped PyCache")
+	print("Stopped PyCache " + __version__)
 	sleep(5)
