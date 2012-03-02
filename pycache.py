@@ -5,15 +5,18 @@ from socket import socket
 from thread import start_new_thread
 from sys import exit
 from time import sleep
+from ConfigParser import RawConfigParser
 
 __version__ = open("version", "r").read()
 
 class PyCache:
 	def __init__(self):
 		try:
+			Config = RawConfigParser()
+			Config.read("config.cfg")
 			self.socket = socket()
-			self.socket.bind(("127.0.0.1", 1270))
-			self.socket.listen(1024)
+			self.socket.bind((Config.get("listen", "ip"), Config.getint("listen", "port")))
+			self.socket.listen(Config.getint("listen", "limit"))
 			while True:
 				client, address = self.socket.accept()
 				start_new_thread(self.cache, (client, address))

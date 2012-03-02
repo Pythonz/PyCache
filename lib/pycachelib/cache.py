@@ -1,10 +1,12 @@
-from socket import socket
+from socket import socket, AF_INET, AF_INET6, SOCK_STREAM
 
 class Cache:
-	def __init__(self):
-		self.socket = socket()
-		self.socket.connect(("127.0.0.1", 1270))
+	def __init__(self, inet=AF_INET, stream=SOCK_STREAM):
+		self.socket = socket(inet, stream)
 		return None
+
+	def connect(self, ip="127.0.0.1", port=1270):
+		self.socket.connect(("127.0.0.1", 1270))
 
 	def stor(self, string, data):
 		self.socket.send("STOR " + string + " " + data + "\n")
