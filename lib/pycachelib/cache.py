@@ -29,5 +29,19 @@ class Cache:
 			return True
 		return False
 
+	def rena(self, string, newstring):
+		self.socket.send("RENA " + string + " " + newstring + "\n")
+		recv = self.socket.recv(10).rstrip()
+		if recv == "OK":
+			return True
+		return False
+
+	def exis(self, string):
+		self.socket.send("EXIS " + string + "\n")
+		recv = self.socket.recv(10).rstrip()
+		if recv == "OK":
+			return True
+		return False
+
 	def close(self):
 		self.socket.close()
