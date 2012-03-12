@@ -110,6 +110,16 @@ namespace eval cache {
 		}
 	}
 
+	proc reconnect {{ip "127.0.0.1"} {port "1270"}} {
+		if {[info exists ::pyca]} {
+			close $::pyca
+			unset ::pyca
+		}
+		if {![info exists ::pyca]} {
+			set ::pyca [socket $ip $port]
+		}
+	}
+
 	proc status {} {
 		if {[info exists ::pyca]} {
 			return 1
