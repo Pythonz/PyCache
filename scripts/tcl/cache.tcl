@@ -89,6 +89,18 @@ namespace eval cache {
 		return 0
 	}
 
+	proc conn {} {
+		if {[info exists ::pyca]} {
+			puts $::pyca "CONN"
+			flush $::pyca
+			gets $::pyca line
+			if {$line == "OK"} {
+				return 1
+			}
+		}
+		return 0
+	}
+
 	proc quit {} {
 		if {[info exists ::pyca]} {
 			puts $::pyca "QUIT"

@@ -48,6 +48,8 @@ class PyCache:
 						del cache
 						cache = dict()
 						client.send("OK\n")
+					elif line.upper() == "CONN":
+						client.send("OK\n")
 					else:
 						client.send("ERROR\n")
 				if len(line.split()) == 2:
